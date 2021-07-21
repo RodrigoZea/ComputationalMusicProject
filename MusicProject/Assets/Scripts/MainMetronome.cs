@@ -17,9 +17,11 @@ public class MainMetronome : MonoBehaviour
    private float interval;
    private float beatsPerBar;
 
+   private bool isEnabled;
+
     
     // Start is called before the first frame update
-    void Start()
+    void StartMetronome()
     {
         audioSource = GetComponent<AudioSource>();
         beatsPerBar = metric.value;
@@ -34,13 +36,11 @@ public class MainMetronome : MonoBehaviour
         } else {
             StartCoroutine("metronome");
         }
-
-        
     }
 
     IEnumerator metronome() {
         counter = 0;
-        while (true) {
+        while (isEnabled) {
             counter++;
             if (counter % beatsPerBar == 1) {
                 audioSource.PlayOneShot(audioClips[0], 0.7F);
@@ -57,7 +57,7 @@ public class MainMetronome : MonoBehaviour
     IEnumerator metronomeSubdivided() {
         counter = 0;
         beatsPerBar = beatsPerBar*2;
-        while (true) {
+        while (isEnabled) {
             counter++;
             if (counter % beatsPerBar == 1) {
                 audioSource.PlayOneShot(audioClips[0], 0.7F);
@@ -76,7 +76,11 @@ public class MainMetronome : MonoBehaviour
         }
     }
 
-    void RenderCircles(){
-
+    public void setEnabled() {
+        isEnabled = true;
+        StartMetronome();
+    }
+    public void setDisabled() {
+        isEnabled = false;
     }
 }
