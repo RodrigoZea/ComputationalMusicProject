@@ -23,6 +23,7 @@ public class MainMetronome : MonoBehaviour
     // Start is called before the first frame update
     void StartMetronome()
     {
+        isEnabled = true;
         audioSource = GetComponent<AudioSource>();
         beatsPerBar = metric.value;
         interval = 60.0f/(float.Parse(bpm.text));
@@ -77,8 +78,9 @@ public class MainMetronome : MonoBehaviour
     }
 
     public void setEnabled() {
-        isEnabled = true;
-        StartMetronome();
+        if (isEnabled == false) {
+            StartMetronome();
+        }
     }
     public void setDisabled() {
         isEnabled = false;
