@@ -45,10 +45,8 @@ public class MainMetronome : MonoBehaviour
             counter++;
             if (counter % beatsPerBar == 1) {
                 audioSource.PlayOneShot(audioClips[0], 0.7F);
-                Debug.Log("start beat");
             } else {
                 audioSource.PlayOneShot(audioClips[1], 0.7F);
-                Debug.Log("other beat");
             }
 
             yield return new WaitForSecondsRealtime(interval);
@@ -62,14 +60,11 @@ public class MainMetronome : MonoBehaviour
             counter++;
             if (counter % beatsPerBar == 1) {
                 audioSource.PlayOneShot(audioClips[0], 0.7F);
-                Debug.Log("Beat inicial");
             } else {
                 if (counter % 2 == 0){
                     audioSource.PlayOneShot(audioClips[2], 0.7F);
-                    Debug.Log("Beat subdividido");
                 } else {
                     audioSource.PlayOneShot(audioClips[1], 0.7F);
-                    Debug.Log("Beat entero");
                 }
             }
             

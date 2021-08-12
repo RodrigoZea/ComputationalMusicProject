@@ -15,7 +15,7 @@ public class ProceduralMusicGenerator : MonoBehaviour
     {
         int[] metric = generateRhythm(0);
         int[] generatedKey = generateKey(metric);
-        //generateFiller(generatedKey, metric);
+        generateFiller(generatedKey, metric);
     }
 
     // Update is called once per frame
@@ -24,9 +24,12 @@ public class ProceduralMusicGenerator : MonoBehaviour
         
     }
 
-    int[] generateRhythm(int seed) {
+    private int[] generateRhythm(int seed) {
         int initialSeed;
-        List<int[]> metrics = new List<int[]>();
+        List<int[]> metrics = new List<int[]>(){
+            new[] {3, 4},
+            new[] {4, 4}
+        };
 
         // Seed setting
         if (generateSeed) {
@@ -37,12 +40,6 @@ public class ProceduralMusicGenerator : MonoBehaviour
 
         Random.InitState(initialSeed);
 
-        int[] threeFourths = {3, 4};
-        int[] fourthFourths = {4, 4};
-
-        metrics.Add(threeFourths);
-        metrics.Add(fourthFourths);
-
         // Pick a random metric
         int metricSelection = Random.Range(0, metrics.Count);
         int[] selectedMetric = metrics[metricSelection];
@@ -50,17 +47,11 @@ public class ProceduralMusicGenerator : MonoBehaviour
         return selectedMetric;
     }
 
-    int[] generateKey(int[] selectedMetric) {
+    private int[] generateKey(int[] selectedMetric) {
         // Can be 3 or 4
         int cantidadSubdivision  = selectedMetric[0];
         // Is always 4.
         int subdivisionBase = selectedMetric[1];
-
-        // For the beat array
-        // i.e. stores a randomly generated [0,1,1,0,1,0,0,1,0,0,1,0] (int[12]) on a 3/4 Metric
-        // Possible values at the moment are 12 or 16.
-        int keysSize = cantidadSubdivision*4;
-        int[] keysArray = new int[keysSize];
 
         // 1, 2, 4
         // 1: Semicorcheas
@@ -73,40 +64,50 @@ public class ProceduralMusicGenerator : MonoBehaviour
         int newSubdivisionCount = cantidadSubdivision*possibleSubdivisions[randomSubdivision];
 
         // ----------------------------------------------------------------------------
-        // Possible values 
+
+        // Possible values for key
         int[] values = {2,3};
-   
-        int currentKeyPos = 0;
-        Debug.Log("Array Size: " + keysSize);
         Debug.Log("Limit: " + newSubdivisionCount);
+        List<int> notesList = new List<int>();
+        int sum = 0;
         // Algorithm: Pick random numbers and append, validate on each append that the sum of the values is not bigger than the size allowed.
-        while(keysArray.Sum() < newSubdivisionCount) {
-            // Pick random number. Either 2 or 3.
-            int rand = values[Random.Range(0, values.Length)];
-            // If value to append is not bigger than the size allowed, add it to array.
-            // i.e. limit is 12 keys and our current array looks like [2, 2, 2, 2, 2, x]
-            //      sum is 10 and will only accept a new value of 2, a value of 3 is not possible to append.
-            if (rand + keysArray.Sum() <= newSubdivisionCount) {  
-                keysArray[currentKeyPos] = rand;
-                // On successful append...
-                currentKeyPos += 1;
-            } 
+        for (int i = 0; i < 10; i++){
+            sum = notesList.Sum();
+            if (sum < newSubdivisionCount)
+            {
+                // Pick random number. Either 2 or 3.
+                int rand = values[Random.Range(0, values.Length)];
+                // If value to append is not bigger than the size allowed, add it to array.
+                // i.e. limit is 12 keys and our current array looks like [2, 2, 2, 2, 2, x]
+                //      sum is 10 and will only accept a new value of 2, a value of 3 is not possible to append.
+                if (rand + sum <= newSubdivisionCount)
+                    notesList.Add(rand);
+            }
+            else break;
         }
+
+        int[] keysArray = notesList.ToArray();
 
         Debug.Log("Clave test: " + string.Join(",", keysArray));
 
         return keysArray;
     }
 
-    void generateFiller(int[] keys, int[] metric) {
-        List<int> result = new List<int>();
+    private int[] generateFiller(int[] keys, int[] metric) {
+        List<int> resultFiller = new List<int>();
+
+        // According to pptx easiest way to create filler is this way.
+        int[] twoKey = {0, 1};
+        int[] threeKey = {0, 1, 1};
         
-        foreach(int note in keys) {
-            if (note == 2) result.AddRange(new List<int>{0, 1, 1});
-            else if (note == 3) result.AddRange(new List<int>{0, 1});
+        for(int i=0; i < keys.Length; i++) {
+            if (keys[i] == 3) resultFiller.AddRange(threeKey);
+            else if (keys[i] == 2) resultFiller.AddRange(twoKey);
         }
 
-        int[] fillingResult = result.ToArray();
-        Debug.Log("Filling test: " + string.Join(",", fillingResult));
+        int[] fillingArray = resultFiller.ToArray();
+        Debug.Log("Filling test: " + string.Join(",", fillingArray));
+
+        return fillingArray;
     }
 }
