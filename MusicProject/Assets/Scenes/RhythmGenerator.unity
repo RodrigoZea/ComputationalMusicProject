@@ -340,7 +340,7 @@ GameObject:
   - component: {fileID: 2115273102}
   - component: {fileID: 2115273103}
   m_Layer: 0
-  m_Name: Battery
+  m_Name: Drums
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
