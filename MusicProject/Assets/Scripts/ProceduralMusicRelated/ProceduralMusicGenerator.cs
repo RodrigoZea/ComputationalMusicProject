@@ -10,12 +10,23 @@ public class ProceduralMusicGenerator : MonoBehaviour
     public int subdivisionBase;
     public bool generateSeed;
     public int seedToUse;
+    private int[] key;
+    private int[] filler;
+    private int[] metric;
+    public GameObject player;
 
     void Start()
     {
-        int[] metric = generateRhythm(0);
+        metric = generateRhythm(0);
         int[] generatedKey = generateKey(metric);
-        generateFiller(generatedKey, metric);
+
+        // --------------------------------------------------
+
+        key = keyArrayFilled(generatedKey);
+        filler = generateFiller(generatedKey, metric);
+
+        player.GetComponent<PlayerScript>().enabled = true;
+        player.GetComponent<PlayerScript>().setIsEnabled(true);
     }
 
     // Update is called once per frame
@@ -67,11 +78,13 @@ public class ProceduralMusicGenerator : MonoBehaviour
 
         // Possible values for key
         int[] values = {2,3};
-        Debug.Log("Limit: " + newSubdivisionCount);
+        //Debug.Log("Limit: " + newSubdivisionCount);
         List<int> notesList = new List<int>();
         int sum = 0;
+
+        bool searching = true;
         // Algorithm: Pick random numbers and append, validate on each append that the sum of the values is not bigger than the size allowed.
-        for (int i = 0; i < 10; i++){
+        while(searching){
             sum = notesList.Sum();
             if (sum < newSubdivisionCount)
             {
@@ -83,31 +96,68 @@ public class ProceduralMusicGenerator : MonoBehaviour
                 if (rand + sum <= newSubdivisionCount)
                     notesList.Add(rand);
             }
-            else break;
+            if (sum == newSubdivisionCount-1) {
+                notesList = new List<int>();
+            }
+            if (sum == newSubdivisionCount) {
+                searching = false;
+                break;
+            }
         }
 
         int[] keysArray = notesList.ToArray();
-
-        Debug.Log("Clave test: " + string.Join(",", keysArray));
-
+    
         return keysArray;
     }
 
     private int[] generateFiller(int[] keys, int[] metric) {
         List<int> resultFiller = new List<int>();
-
+        
         // According to pptx easiest way to create filler is this way.
-        int[] twoKey = {0, 1};
-        int[] threeKey = {0, 1, 1};
+        int[] twoKeyFiller = {0, 1};
+        int[] threeKeyFiller = {0, 1, 1};
         
         for(int i=0; i < keys.Length; i++) {
-            if (keys[i] == 3) resultFiller.AddRange(threeKey);
-            else if (keys[i] == 2) resultFiller.AddRange(twoKey);
+            if (keys[i] == 3) resultFiller.AddRange(threeKeyFiller);
+            else if (keys[i] == 2) resultFiller.AddRange(twoKeyFiller);
         }
 
         int[] fillingArray = resultFiller.ToArray();
-        Debug.Log("Filling test: " + string.Join(",", fillingArray));
+
+        Debug.Log("Filling: " + string.Join(",", fillingArray));
+        Debug.Log("Filling size: " + fillingArray.Length);
 
         return fillingArray;
+    }
+
+    private int[] keyArrayFilled(int[] keys) {
+        List<int> keysToPlay = new List<int>();
+
+        // Generating keys array
+        int[] twoKey = {1, 0};
+        int[] threeKey = {1, 0, 0};
+        
+        for(int i=0; i < keys.Length; i++) {
+            if (keys[i] == 3) keysToPlay.AddRange(threeKey);
+            else if (keys[i] == 2) keysToPlay.AddRange(twoKey);
+        }
+        
+        int[] keyArray = keysToPlay.ToArray();
+        Debug.Log("Key: " + string.Join(",", keyArray));
+        Debug.Log("key size: " + keyArray.Length);
+
+        return keyArray;
+    }
+
+    public int[] getKey(){
+        return key;
+    }
+
+    public int[] getFiller() {
+        return filler;
+    }
+
+    public int[] getMetric() {
+        return metric;
     }
 }

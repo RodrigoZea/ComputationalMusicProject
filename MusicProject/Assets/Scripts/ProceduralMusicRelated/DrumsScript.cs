@@ -19,4 +19,12 @@ public class DrumsScript : MonoBehaviour
     {
         
     }
+
+    private void getKey(int[] generatedKey) {
+
+    }
+
+    private void getFiller(int[] generatedFiller) {
+
+    }
 }
