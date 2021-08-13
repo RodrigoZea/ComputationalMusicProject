@@ -9,6 +9,8 @@ public class DrumsScript : MonoBehaviour
     // 2: Metric
 
     public List<AudioClip> audioClips; 
+    private int[] drumKey;
+    private int[] drumFiller;
     void Start()
     {
         
@@ -20,11 +22,21 @@ public class DrumsScript : MonoBehaviour
         
     }
 
-    private void getKey(int[] generatedKey) {
-
+    public int getKeyNote(int pos) {
+        int noteValue = drumKey[pos];
+        return noteValue;
     }
 
-    private void getFiller(int[] generatedFiller) {
+    public int getFillerNote(int pos) {
+        int noteValue = drumFiller[pos];
+        return noteValue;
+    }
 
+    public void setKey(int[] generatedKey) {
+        drumKey = generatedKey;
+    }
+
+    public void setFiller(int[] generatedFiller) {
+        drumFiller = generatedFiller;
     }
 }
