@@ -39,4 +39,8 @@ public class DrumsScript : MonoBehaviour
     public void setFiller(int[] generatedFiller) {
         drumFiller = generatedFiller;
     }
+
+    public int drumArrayLength(){
+        return drumKey.Length;
+    }
 }

@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     private float semicorcheasPerMinute;
     private int subdivisionSemicorcheas;
     private int[] metricToPlay;
+    private int drumArrayLength;
     void Start()
     {
         generator = MusicGenerator.GetComponent<ProceduralMusicGenerator>();
@@ -38,22 +39,17 @@ public class PlayerScript : MonoBehaviour
         
         metric = generator.getMetric();
         subdivisionSemicorcheas = metric[0]*4;
-        
+
         metricToPlay = calculateMetric();
 
         SetupDrums();
         StartCoroutine(StartBeat());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void SetupDrums(){
         drumsScript.setKey(generator.getKey());
         drumsScript.setFiller(generator.getFiller());
+        drumArrayLength = drumsScript.drumArrayLength();
 
         drumsScript.enabled = true;
     }
@@ -64,22 +60,22 @@ public class PlayerScript : MonoBehaviour
             counter++;
 
             int currentMetricKey = metricToPlay[counter%metricToPlay.Length];
-            int currentKeyNote = drumsScript.getKeyNote(counter%metricToPlay.Length);
-            int currentFillerNote = drumsScript.getFillerNote(counter%metricToPlay.Length);
+            int currentKeyNote = drumsScript.getKeyNote(counter%drumArrayLength);
+            int currentFillerNote = drumsScript.getFillerNote(counter%drumArrayLength);
 
             if (currentMetricKey == 1) {
                 playerAudioSource.PlayOneShot(audioClips[0], 0.7F);
-                Debug.Log("Playing metric key.");
+                //Debug.Log("Playing metric key.");
             } 
 
             if (currentKeyNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[0], 0.7F);
-                Debug.Log("Playing drum key.");
+                //Debug.Log("Playing drum key.");
             }
 
             if (currentFillerNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[1], 0.7F);
-                Debug.Log("Playing drum filler.");
+                //Debug.Log("Playing drum filler.");
             }
 
             yield return new WaitForSecondsRealtime(semicorcheasPerMinute);
