@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PlayerScript : MonoBehaviour
 
     // --------------------------------
     public int[] metric;
-    public int bpm;
+    public float bpm;
     private bool isEnabled;
     private int counter;
     private float interval;
@@ -25,7 +26,10 @@ public class PlayerScript : MonoBehaviour
     private int subdivisionSemicorcheas;
     private int[] metricToPlay;
     private int drumArrayLength;
-    void Start()
+
+    // --------------------------------
+
+    public void StartPlayer()
     {
         generator = MusicGenerator.GetComponent<ProceduralMusicGenerator>();
         drumsScript = Drums.GetComponent<DrumsScript>();
@@ -33,7 +37,8 @@ public class PlayerScript : MonoBehaviour
         playerAudioSource = GetComponent<AudioSource>();
         drumAudioSource = Drums.GetComponent<AudioSource>();
 
-        bpm = 100;
+        // -------------------------------------
+        bpm = generator.getBPM();
         interval = 60.0f/bpm;
         semicorcheasPerMinute = interval/4f;
         
@@ -42,8 +47,16 @@ public class PlayerScript : MonoBehaviour
 
         metricToPlay = calculateMetric();
 
+        // -------------------------------------        
+
         SetupDrums();
         StartCoroutine(StartBeat());
+    }
+
+    public void ResetPlayer() {
+        counter = 0;
+        isEnabled = false;
+        drumsScript.enabled = false;
     }
 
     private void SetupDrums(){

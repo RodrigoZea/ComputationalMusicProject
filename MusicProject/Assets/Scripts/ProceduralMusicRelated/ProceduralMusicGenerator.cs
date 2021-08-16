@@ -2,40 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ProceduralMusicGenerator : MonoBehaviour
 {
     // Start is called before the first frame update
-    public int cantidadSubdivision;
-    public int subdivisionBase;
-    public bool generateSeed;
-    public int seedToUse;
     private int[] key;
     private int[] filler;
     private int[] metric;
     public GameObject player;
+     // -----------------------------
+    public Toggle generateSeedOption;
+    public InputField seed;
+   
+    public Text metricText;
+    public Text keyText;
+    public InputField bpmInputField;
+    private float bpm;
 
-    void Start()
-    {
-        metric = generateRhythm(0);
+    public void StartRhythm() {
+        metric = generateRhythm(generateSeedOption.isOn);
         int[] generatedKey = generateKey(metric);
+        bpm = (float.Parse(bpmInputField.text));
+
+        // Set max
+        if (bpm > 300) bpm = 300;
+
+        // Set default
+        if (bpm <= 0) bpm = 100;
 
         // --------------------------------------------------
 
         key = keyArrayFilled(generatedKey);
         filler = generateFiller(generatedKey, metric);
 
+        bpmInputField.enabled = false;
+        generateSeedOption.enabled = false;
+        seed.enabled = false;
+
         player.GetComponent<PlayerScript>().enabled = true;
         player.GetComponent<PlayerScript>().setIsEnabled(true);
+        player.GetComponent<PlayerScript>().StartPlayer();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void StopRhythm(){
+        player.GetComponent<PlayerScript>().ResetPlayer();
+        player.GetComponent<PlayerScript>().enabled = false; 
+
+        bpmInputField.enabled = true;
+        generateSeedOption.enabled = true;
+        seed.enabled = true;
     }
 
-    private int[] generateRhythm(int seed) {
+    private int[] generateRhythm(bool generateSeed) {
         int initialSeed;
         List<int[]> metrics = new List<int[]>(){
             new[] {3, 4},
@@ -46,7 +64,7 @@ public class ProceduralMusicGenerator : MonoBehaviour
         if (generateSeed) {
             initialSeed = System.DateTime.Now.Second;
         } else {
-            initialSeed = seed;
+            initialSeed = int.Parse(seed.text);
         }
 
         Random.InitState(initialSeed);
@@ -54,6 +72,9 @@ public class ProceduralMusicGenerator : MonoBehaviour
         // Pick a random metric
         int metricSelection = Random.Range(0, metrics.Count);
         int[] selectedMetric = metrics[metricSelection];
+
+        metricText.text = selectedMetric[0].ToString() + "/" + selectedMetric[1].ToString();
+
 
         return selectedMetric;
     }
@@ -143,8 +164,8 @@ public class ProceduralMusicGenerator : MonoBehaviour
         }
         
         int[] keyArray = keysToPlay.ToArray();
-        Debug.Log("Key: " + string.Join(",", keyArray));
-        Debug.Log("key size: " + keyArray.Length);
+
+        keyText.text = string.Join(",", keyArray);
 
         return keyArray;
     }
@@ -159,5 +180,9 @@ public class ProceduralMusicGenerator : MonoBehaviour
 
     public int[] getMetric() {
         return metric;
+    }
+
+    public float getBPM() {
+        return bpm;
     }
 }
