@@ -18,6 +18,7 @@ public class ProceduralMusicGenerator : MonoBehaviour
     public Text keyText;
     public InputField bpmInputField;
     private float bpm;
+    public GameObject progressionGenerator;
 
     public void StartRhythm() {
         metric = generateRhythm(generateSeedOption.isOn);
@@ -38,6 +39,9 @@ public class ProceduralMusicGenerator : MonoBehaviour
         bpmInputField.enabled = false;
         generateSeedOption.enabled = false;
         seed.enabled = false;
+
+        progressionGenerator.GetComponent<ProgressionGenerator>().enabled = true;
+        progressionGenerator.GetComponent<ProgressionGenerator>().setMetric(metric);
 
         player.GetComponent<PlayerScript>().enabled = true;
         player.GetComponent<PlayerScript>().setIsEnabled(true);
@@ -96,40 +100,14 @@ public class ProceduralMusicGenerator : MonoBehaviour
         int newSubdivisionCount = cantidadSubdivision*possibleSubdivisions[randomSubdivision];
 
         // ----------------------------------------------------------------------------
-
         // Possible values for key
         int[] values = {2,3};
-        //Debug.Log("Limit: " + newSubdivisionCount);
-        List<int> notesList = new List<int>();
-        int sum = 0;
+        int [] keysArray = Utilities.calculateRandomPush(values, newSubdivisionCount);
 
-        bool searching = true;
-        // Algorithm: Pick random numbers and append, validate on each append that the sum of the values is not bigger than the size allowed.
-        while(searching){
-            sum = notesList.Sum();
-            if (sum < newSubdivisionCount)
-            {
-                // Pick random number. Either 2 or 3.
-                int rand = values[Random.Range(0, values.Length)];
-                // If value to append is not bigger than the size allowed, add it to array.
-                // i.e. limit is 12 keys and our current array looks like [2, 2, 2, 2, 2, x]
-                //      sum is 10 and will only accept a new value of 2, a value of 3 is not possible to append.
-                if (rand + sum <= newSubdivisionCount)
-                    notesList.Add(rand);
-            }
-            if (sum == newSubdivisionCount-1) {
-                notesList = new List<int>();
-            }
-            if (sum == newSubdivisionCount) {
-                searching = false;
-                break;
-            }
-        }
-
-        int[] keysArray = notesList.ToArray();
-    
         return keysArray;
     }
+
+
 
     private int[] generateFiller(int[] keys, int[] metric) {
         List<int> resultFiller = new List<int>();
