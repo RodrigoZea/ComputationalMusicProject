@@ -8,9 +8,9 @@ public class Key : MonoBehaviour
     public bool accent;
     public float frequency;
     public int keyPos;
-    public Key(string keyName, bool accent, int keyPos) {
+    public Key(string keyName, int keyPos) {
         this.keyName = keyName;
-        this.accent = accent;
+        this.accent = keyName.Contains("#");
         this.keyPos = keyPos;
         //this.frequency = frequency;
     }

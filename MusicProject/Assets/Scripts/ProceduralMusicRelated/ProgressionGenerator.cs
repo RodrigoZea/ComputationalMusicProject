@@ -11,12 +11,13 @@ public class ProgressionGenerator : MonoBehaviour
     private int blackKeysPerCompass;
     private int[] possibleSubDivisions;
     private int[] possibleFullDivisions;
+    private PianoScript piano;
     void Start()
     {
         calculateCompassDistribution();
     }
 
-    private int[] calculateCompassDistribution() {
+    private void calculateCompassDistribution() {
         possibleFullDivisions = new[]{1, 2, 4};
         if (generatorMetric != null) {
             if (generatorMetric[0] == 4) {
@@ -30,6 +31,8 @@ public class ProgressionGenerator : MonoBehaviour
         }
 
         // Pick random piano note
+        int randomPianoKey = Random.Range(0, 13);
+        piano = new PianoScript(randomPianoKey);
 
         int maxBlackKeys = compasses*4;
 
@@ -39,7 +42,9 @@ public class ProgressionGenerator : MonoBehaviour
 
         Debug.Log("Compass subdivided: " + string.Join(",", subdividedCompass));
 
-        return subdividedCompass;
+        // We now do Tonal functions
+        calculateTonalFunction(subdividedCompass);
+
     }
 
     private int[] subdivideCompass(int[] compassArray) {
@@ -76,8 +81,11 @@ public class ProgressionGenerator : MonoBehaviour
         return result;
     }
 
-    private void calculateTonalFunction() {
+    private void calculateTonalFunction(int[] compassArray) {
+        Chord previousChord = null;
+        for (int i = 0; i < compassArray.Length; i++) {
 
+        }
     }
 
     private void chooseGradedChords() {
