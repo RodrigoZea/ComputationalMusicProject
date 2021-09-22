@@ -46,7 +46,6 @@ public class ProgressionGenerator : MonoBehaviour
         calculateTonalFunction(subdividedCompass);
 
     }
-
     private int[] subdivideCompass(int[] compassArray) {
         List<int> resultList = new List<int>();
 
@@ -82,14 +81,30 @@ public class ProgressionGenerator : MonoBehaviour
     }
 
     private void calculateTonalFunction(int[] compassArray) {
-        Chord previousChord = null;
+        Compass previousCompass = null;
+        List<Compass> compassList = new List<Compass>();
+
         for (int i = 0; i < compassArray.Length; i++) {
+            // Start with a strong one
+            CompassType compassType = CompassType.Fuerte;
 
+            // Check previous one
+            if (previousCompass != null) {
+
+            }
+
+            Chord chord = new Chord();
+            // Select a random one
+            if (compassType == CompassType.Fuerte) {
+                chord = piano.getRandomStrongChord();
+            } else if (compassType == CompassType.Debil) {
+                chord = piano.getRandomWeakChord();
+            }
+
+            Compass newCompass = new Compass(chord, compassArray[i], compassType);
+            compassList.Add(newCompass);
+            previousCompass = newCompass;
         }
-    }
-
-    private void chooseGradedChords() {
-
     }
 
     public void setMetric(int[] metric) {

@@ -13,7 +13,8 @@ public class Chord : MonoBehaviour
 {
     List<Key> chordKeys;
     ChordQuality chordQuality;
-    ChordGrade chordGrade;
+    public ChordGrade chordGrade;
+    public Chord() {}
     public Chord(List<Key> chordKeys, int chordIndex) {
         this.chordKeys = chordKeys;
         this.chordGrade = getGrade(chordIndex);

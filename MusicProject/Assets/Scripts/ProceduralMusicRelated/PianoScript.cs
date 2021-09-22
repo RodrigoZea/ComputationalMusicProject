@@ -23,11 +23,16 @@ public class PianoScript : MonoBehaviour
     int rootNoteIndex;
     string[] majorKey;
     List<Chord> chords;
+    public List<Chord> strongChords;
+    public List<Chord> weakChords;
 
     public PianoScript(int rootNoteIndex) {
         this.rootNoteIndex = rootNoteIndex;
         this.majorKey = generateMajorKey(rootNoteIndex);
         this.chords = generateChordsToUse(this.majorKey);
+
+        this.strongChords = getStrongChords(this.chords);
+        this.weakChords = getWeakChords(this.chords);
     }
 
     private string[] generateMajorKey(int rootNoteIndex) {
@@ -68,5 +73,41 @@ public class PianoScript : MonoBehaviour
         }
 
         return chordList;
+    }
+
+    private List<Chord> getStrongChords(List<Chord> chords) {
+        List<Chord> strongChordList = new List<Chord>();
+        foreach (Chord chord in chords) {
+            if (chord.chordGrade == ChordGrade.Tonica || chord.chordGrade == ChordGrade.Subdominante) {
+                strongChordList.Add(chord);
+            }
+        }
+
+        return strongChordList;
+    }
+
+    private List<Chord> getWeakChords(List<Chord> chords) {
+        List<Chord> weakChordList = new List<Chord>();
+        foreach (Chord chord in chords) {
+            if (chord.chordGrade == ChordGrade.Dominante || chord.chordGrade == ChordGrade.Subdominante) {
+                weakChordList.Add(chord);
+            }
+        }
+
+        return weakChordList;
+    }
+
+    public Chord getRandomStrongChord() {
+        int choice = Random.Range(0, strongChords.Count);
+        Chord randomStrong = strongChords[choice];
+
+        return randomStrong;
+    }
+
+    public Chord getRandomWeakChord() {
+        int choice = Random.Range(0, weakChords.Count);
+        Chord randomWeak = weakChords[choice];
+
+        return randomWeak;
     }
 }
