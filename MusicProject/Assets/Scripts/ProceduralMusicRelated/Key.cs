@@ -14,4 +14,6 @@ public class Key : MonoBehaviour
         this.keyPos = keyPos;
         //this.frequency = frequency;
     }
+
+    
 }

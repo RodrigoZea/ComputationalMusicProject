@@ -25,6 +25,9 @@ public class PianoScript : MonoBehaviour
     List<Chord> chords;
     public List<Chord> strongChords;
     public List<Chord> weakChords;
+    List<Chord> subdomChords;
+    List<Chord> domChords;
+    List<Chord> tonicChords;
 
     public PianoScript(int rootNoteIndex) {
         this.rootNoteIndex = rootNoteIndex;
@@ -33,6 +36,9 @@ public class PianoScript : MonoBehaviour
 
         this.strongChords = getStrongChords(this.chords);
         this.weakChords = getWeakChords(this.chords);
+        this.subdomChords = getSubdomChords(this.chords);
+        this.domChords = getDomChords(this.chords);
+        this.tonicChords = getTonicChords(this.chords);
     }
 
     private string[] generateMajorKey(int rootNoteIndex) {
@@ -67,7 +73,8 @@ public class PianoScript : MonoBehaviour
 
             Chord newChord = new Chord(
                 chordKeys,
-                i
+                i,
+                majorKey[i]
             );
             chordList.Add(newChord);
         }
@@ -97,6 +104,39 @@ public class PianoScript : MonoBehaviour
         return weakChordList;
     }
 
+    private List<Chord> getSubdomChords(List<Chord> chords) {
+        List<Chord> subdomChordList = new List<Chord>();
+        foreach (Chord chord in chords) {
+            if (chord.chordGrade == ChordGrade.Subdominante) {
+                subdomChordList.Add(chord);
+            }
+        }
+
+        return subdomChordList;
+    }
+
+    private List<Chord> getDomChords(List<Chord> chords) {
+        List<Chord> domChordList = new List<Chord>();
+        foreach (Chord chord in chords) {
+            if (chord.chordGrade == ChordGrade.Dominante) {
+                domChordList.Add(chord);
+            }
+        }
+
+        return domChordList;
+    }
+
+    private List<Chord> getTonicChords(List<Chord> chords) {
+        List<Chord> tonicChordList = new List<Chord>();
+        foreach (Chord chord in chords) {
+            if (chord.chordGrade == ChordGrade.Tonica) {
+                tonicChordList.Add(chord);
+            }
+        }
+
+        return tonicChordList;
+    }
+
     public Chord getRandomStrongChord() {
         int choice = Random.Range(0, strongChords.Count);
         Chord randomStrong = strongChords[choice];
@@ -110,4 +150,27 @@ public class PianoScript : MonoBehaviour
 
         return randomWeak;
     }
+
+    public Chord getRandomSubdomChord() {
+        int choice = Random.Range(0, subdomChords.Count);
+        Chord randomSubdom = subdomChords[choice];
+
+        return randomSubdom;
+    }
+
+    // Its always going to return index 4 of the list but in case we use more Dom chords in the future, this is useful.
+    public Chord getRandomDomChord() {
+        int choice = Random.Range(0, domChords.Count);
+        Chord randomDom = domChords[choice];
+
+        return randomDom;
+    }
+
+    public Chord getRandomTonicChord() {
+        int choice = Random.Range(0, tonicChords.Count);
+        Chord randomTonic = tonicChords[choice];
+
+        return randomTonic;
+    }
+
 }

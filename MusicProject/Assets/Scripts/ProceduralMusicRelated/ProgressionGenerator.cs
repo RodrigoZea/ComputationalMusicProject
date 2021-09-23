@@ -43,7 +43,14 @@ public class ProgressionGenerator : MonoBehaviour
         Debug.Log("Compass subdivided: " + string.Join(",", subdividedCompass));
 
         // We now do Tonal functions
-        calculateTonalFunction(subdividedCompass);
+        List<Compass> compassTonal = calculateTonalFunction(subdividedCompass);
+
+        foreach(Compass compass in compassTonal) {
+            Debug.Log("Compass duration: " + compass.duration);
+            Debug.Log("Compass type: " + compass.compassType);
+            Debug.Log("Chord a planchar: " + compass.chordToPlay.chordMainKey);
+            Debug.Log("Compass keys: " + compass.chordToPlay.getChordKeys());
+        }
 
     }
     private int[] subdivideCompass(int[] compassArray) {
@@ -80,7 +87,7 @@ public class ProgressionGenerator : MonoBehaviour
         return result;
     }
 
-    private void calculateTonalFunction(int[] compassArray) {
+    private List<Compass> calculateTonalFunction(int[] compassArray) {
         Compass previousCompass = null;
         List<Compass> compassList = new List<Compass>();
 
@@ -90,7 +97,9 @@ public class ProgressionGenerator : MonoBehaviour
 
             // Check previous one
             if (previousCompass != null) {
-
+                if (compassArray[i] % previousCompass.duration == 0 && previousCompass.compassType == CompassType.Fuerte) {
+                    compassType = CompassType.Debil;
+                }
             }
 
             Chord chord = new Chord();
@@ -101,10 +110,18 @@ public class ProgressionGenerator : MonoBehaviour
                 chord = piano.getRandomWeakChord();
             }
 
+            // Check double weak
+            if (previousCompass != null) {
+                if (previousCompass.compassType == CompassType.Debil && previousCompass.chordToPlay.chordGrade == ChordGrade.Subdominante) {
+                    chord = piano.getRandomDomChord();
+                }
+            }
+
             Compass newCompass = new Compass(chord, compassArray[i], compassType);
             compassList.Add(newCompass);
             previousCompass = newCompass;
         }
+        return compassList;
     }
 
     public void setMetric(int[] metric) {

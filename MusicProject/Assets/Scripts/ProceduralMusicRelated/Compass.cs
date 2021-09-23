@@ -7,9 +7,9 @@ public enum CompassType {
 }
 public class Compass : MonoBehaviour
 {
-    Chord chordToPlay;
-    int duration;
-    CompassType compassType;
+    public Chord chordToPlay;
+    public int duration;
+    public CompassType compassType;
 
     public Compass(Chord chordToPlay, int duration, CompassType compassType) {
         this.chordToPlay = chordToPlay;

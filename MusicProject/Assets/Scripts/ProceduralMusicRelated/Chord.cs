@@ -11,11 +11,13 @@ public enum ChordQuality {
 }
 public class Chord : MonoBehaviour
 {
-    List<Key> chordKeys;
+    public string chordMainKey;
+    public List<Key> chordKeys;
     ChordQuality chordQuality;
     public ChordGrade chordGrade;
     public Chord() {}
-    public Chord(List<Key> chordKeys, int chordIndex) {
+    public Chord(List<Key> chordKeys, int chordIndex, string chordMainKey) {
+        this.chordMainKey = chordMainKey;
         this.chordKeys = chordKeys;
         this.chordGrade = getGrade(chordIndex);
         this.chordQuality = getQuality(this.chordKeys);
@@ -74,6 +76,10 @@ public class Chord : MonoBehaviour
         }
 
         return chordGrade;
+    }
+
+    public string getChordKeys() {
+        return chordKeys[0].keyName + " | " + chordKeys[1].keyName + " | " + chordKeys[2].keyName;
     }
 
 }
