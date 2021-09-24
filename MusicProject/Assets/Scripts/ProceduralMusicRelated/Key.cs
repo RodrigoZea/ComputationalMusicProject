@@ -10,10 +10,7 @@ public class Key : MonoBehaviour
     public int keyPos;
     public Key(string keyName, int keyPos) {
         this.keyName = keyName;
-        this.accent = keyName.Contains("#");
         this.keyPos = keyPos;
-        //this.frequency = frequency;
+        this.frequency = Mathf.Pow(2, ((float)this.keyPos)/12.0f);
     }
-
-    
 }

@@ -12,12 +12,19 @@ public class ProgressionGenerator : MonoBehaviour
     private int[] possibleSubDivisions;
     private int[] possibleFullDivisions;
     private PianoScript piano;
+    public GameObject player;
+    public GameObject pianoPlayer;
     void Start()
     {
-        calculateCompassDistribution();
+        List<Compass> compassTonal = calculateCompassDistribution();
+
+        pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(piano, compassTonal);
+        player.GetComponent<PlayerScript>().enabled = true;
+        player.GetComponent<PlayerScript>().setIsEnabled(true);
+        player.GetComponent<PlayerScript>().StartPlayer();
     }
 
-    private void calculateCompassDistribution() {
+    private List<Compass> calculateCompassDistribution() {
         possibleFullDivisions = new[]{1, 2, 4};
         if (generatorMetric != null) {
             if (generatorMetric[0] == 4) {
@@ -31,7 +38,7 @@ public class ProgressionGenerator : MonoBehaviour
         }
 
         // Pick random piano note
-        int randomPianoKey = Random.Range(0, 13);
+        int randomPianoKey = Random.Range(0, 12);
         piano = new PianoScript(randomPianoKey);
 
         int maxBlackKeys = compasses*4;
@@ -52,6 +59,7 @@ public class ProgressionGenerator : MonoBehaviour
             Debug.Log("Compass keys: " + compass.chordToPlay.getChordKeys());
         }
 
+        return compassTonal;
     }
     private int[] subdivideCompass(int[] compassArray) {
         List<int> resultList = new List<int>();
@@ -117,7 +125,7 @@ public class ProgressionGenerator : MonoBehaviour
                 }
             }
 
-            Compass newCompass = new Compass(chord, compassArray[i], compassType);
+            Compass newCompass = new Compass(chord, compassArray[i]*4, compassType);
             compassList.Add(newCompass);
             previousCompass = newCompass;
         }

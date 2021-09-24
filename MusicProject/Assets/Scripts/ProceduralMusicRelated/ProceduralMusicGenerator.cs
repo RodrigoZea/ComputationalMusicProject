@@ -42,10 +42,6 @@ public class ProceduralMusicGenerator : MonoBehaviour
 
         progressionGenerator.GetComponent<ProgressionGenerator>().enabled = true;
         progressionGenerator.GetComponent<ProgressionGenerator>().setMetric(metric);
-
-        player.GetComponent<PlayerScript>().enabled = true;
-        player.GetComponent<PlayerScript>().setIsEnabled(true);
-        player.GetComponent<PlayerScript>().StartPlayer();
     }
 
     public void StopRhythm(){

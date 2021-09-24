@@ -11,16 +11,6 @@ public class DrumsScript : MonoBehaviour
     public List<AudioClip> audioClips; 
     private int[] drumKey;
     private int[] drumFiller;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public int getKeyNote(int pos) {
         int noteValue = drumKey[pos];
