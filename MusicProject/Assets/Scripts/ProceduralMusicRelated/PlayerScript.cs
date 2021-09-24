@@ -86,8 +86,6 @@ public class PlayerScript : MonoBehaviour
     private IEnumerator StartBeat() {
         counter = 0;
         while (isEnabled) {
-            counter++;
-
             int currentMetricKey = metricToPlay[counter%metricToPlay.Length];
             int currentKeyNote = drumsScript.getKeyNote(counter%drumArrayLength);
             int currentFillerNote = drumsScript.getFillerNote(counter%drumArrayLength);
@@ -97,11 +95,14 @@ public class PlayerScript : MonoBehaviour
             } 
             if (currentKeyNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[0], 0.7F);
+                Debug.Log("Played Key");
             }
             if (currentFillerNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[1], 0.7F);
+                Debug.Log("Played Filler");
             }
 
+            counter++;
             yield return new WaitForSecondsRealtime(semicorcheasPerMinute);
         }
     }
