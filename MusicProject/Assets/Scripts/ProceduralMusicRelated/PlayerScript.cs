@@ -95,11 +95,11 @@ public class PlayerScript : MonoBehaviour
             } 
             if (currentKeyNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[0], 0.7F);
-                Debug.Log("Played Key");
+                //Debug.Log("Played Key");
             }
             if (currentFillerNote == 1) {
                 drumAudioSource.PlayOneShot(drumsScript.audioClips[1], 0.7F);
-                Debug.Log("Played Filler");
+                //Debug.Log("Played Filler");
             }
 
             counter++;
@@ -116,7 +116,8 @@ public class PlayerScript : MonoBehaviour
 
 
             compassSemiCounter++;
-            if (currentCompassObj.duration % compassSemiCounter == metric[0]) {
+            if (compassSemiCounter % metric[0] == 0) {
+                Debug.Log("Semicounter is: " + compassSemiCounter);
                 // Play chord
                 playChord(
                     currentCompassObj.chordToPlay.chordKeys[0], 
