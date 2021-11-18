@@ -70,6 +70,7 @@ public class PlayerScript : MonoBehaviour
         compassSemiCounter = 0;
 
         isEnabled = false;
+        progressionGenerator.GetComponent<ProgressionGenerator>().enabled = false;
         drumsScript.enabled = false;
         pianoPlayer.enabled = false;
     }

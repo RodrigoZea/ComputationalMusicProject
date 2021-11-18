@@ -40,8 +40,9 @@ public class ProceduralMusicGenerator : MonoBehaviour
         generateSeedOption.enabled = false;
         seed.enabled = false;
 
+        progressionGenerator.GetComponent<ProgressionGenerator>().setMetric(metric);    
         progressionGenerator.GetComponent<ProgressionGenerator>().enabled = true;
-        progressionGenerator.GetComponent<ProgressionGenerator>().setMetric(metric);
+        
     }
 
     public void StopRhythm(){
