@@ -10,12 +10,10 @@ public class MelodyGenerator : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public List<MelodyKey> generateMelodyFromCompass(){
+        List<MelodyKey> melodyKeys = new List<MelodyKey>();
+        return melodyKeys;
     }
-
     // Get form from the progression (get the array of compasses and for each compass)
         // Pick note combination to play    
         // Get notes from progression in the back

@@ -12,28 +12,22 @@ public class ProgressionGenerator : MonoBehaviour
     private int[] possibleSubDivisions;
     private int[] possibleFullDivisions;
     private PianoScript piano;
+    public GameObject formGenerator;
     public GameObject player;
     public GameObject pianoPlayer;
-    void Start()
-    {
-
-    }
 
     private void OnEnable() {
-        List<Compass> compassTonal = calculateCompassDistribution();
-
-        pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(piano, compassTonal);
+        initPiano();
+        formGenerator.GetComponent<FormGenerator>().enabled = true;
+        //List<Compass> compassTonal = calculateCompassDistribution();
+        
+        /*
         player.GetComponent<PlayerScript>().enabled = true;
         player.GetComponent<PlayerScript>().setIsEnabled(true);
-        player.GetComponent<PlayerScript>().StartPlayer();
+        player.GetComponent<PlayerScript>().StartPlayer();*/
     }
 
-    private void getForm() {
-        // Define forms
-        // A(2)B(2)B(2)A(2), ABCDDEBA (1 each), A(2)B(2)C(4)
-    }
-
-    private List<Compass> calculateCompassDistribution() {
+    private void initPiano() {
         possibleFullDivisions = new[]{1, 2, 4};
         if (generatorMetric != null) {
             if (generatorMetric[0] == 4) {
@@ -53,8 +47,9 @@ public class ProgressionGenerator : MonoBehaviour
         piano = new PianoScript(randomPianoKey);
 
         int maxBlackKeys = compasses*4;
+    }
 
-
+    public List<Compass> calculateCompassDistribution() {
         int[] keysArray = Utilities.calculateRandomPush(possibleFullDivisions, compasses);
         int[] subdividedCompass = subdivideCompass(keysArray);
 

@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11362e8a0c7ba6d4793db5f0b8e4273e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  formGenerator: {fileID: 813684746}
   player: {fileID: 1807641842}
   pianoPlayer: {fileID: 740881987}
 --- !u!4 &295333950
@@ -868,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1062e222b5f34e04892049236792a5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!4 &740881989
 Transform:
   m_ObjectHideFlags: 0
@@ -950,6 +952,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &813684746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 813684748}
+  - component: {fileID: 813684747}
+  m_Layer: 0
+  m_Name: FormGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &813684747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813684746}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a10833853550549ab346ac386fa4b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  producedFormList: []
+  player: {fileID: 1807641842}
+--- !u!4 &813684748
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813684746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 594.89624, y: 320.33505, z: 18.160053}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &931393766
 GameObject:

@@ -7,8 +7,7 @@ public class PianoPlayer : MonoBehaviour
     PianoScript pianoInfo;
     List<Compass> compasses;
 
-    public void setPianoInfo(PianoScript pianoScript, List<Compass> compassTonal) {
-        pianoInfo = pianoScript;
+    public void setPianoInfo(List<Compass> compassTonal) {
         compasses = compassTonal;
     }
 
