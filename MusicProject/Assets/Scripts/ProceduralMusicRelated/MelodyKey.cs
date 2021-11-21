@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class MelodyKey : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Key key;
+    int duration;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public MelodyKey(Key key, int duration) {
+        this.key = key;
+        this.duration = duration;
     }
 }

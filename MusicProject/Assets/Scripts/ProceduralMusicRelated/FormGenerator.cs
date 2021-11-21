@@ -4,23 +4,28 @@ using UnityEngine;
 
 public class FormGenerator : MonoBehaviour
 {
-    public Dictionary<string, List<Compass>> formDictionary;
+    private Dictionary<string, List<Compass>> formCompassDictionary;
+    private Dictionary<string, List<MelodyKey>> formKeysDictionary;
     public GameObject player;
     public ProgressionGenerator progressionGenerator;
     public GameObject pianoPlayer;
+    public MelodyGenerator melodyGenerator;
+
+    List<Compass> formedCompassList = new List<Compass>();
+    List<MelodyKey> formedKeyList = new List<MelodyKey>();
+
 
     // Start is called before the first frame update
     void Start()
     {
-        List<Compass> formedCompassList = getForm();
-        pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(formedCompassList);
+        getForm();
+        //pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(formedCompassList);
         player.GetComponent<PlayerScript>().enabled = true;
         player.GetComponent<PlayerScript>().setIsEnabled(true);
         player.GetComponent<PlayerScript>().StartPlayer();
     }
 
-    private List<Compass> getForm() {
-    List<Compass> producedFormList = new List<Compass>();
+    private void getForm() {
         // Define forms
         // AABB, ABAB, ABBA, AAAB, ABCD, ABCA, ABCB, ABCC
         List<string[]> forms = new List<string[]>(){
@@ -39,18 +44,25 @@ public class FormGenerator : MonoBehaviour
         string[] selectedForm = forms[formSelection];
 
         foreach(string letter in selectedForm) {
-            if (formDictionary.ContainsKey(letter)) {
-                // Get the compass list
-                List<Compass> value = formDictionary[letter];
-                producedFormList.AddRange(value);
+            if (formCompassDictionary.ContainsKey(letter) && formKeysDictionary.ContainsKey(letter)) {
+                // Get compass list
+                List<Compass> compassList = formCompassDictionary[letter];
+                formedCompassList.AddRange(compassList);
+                // Get keys list
+                List<MelodyKey> melodyList = formKeysDictionary[letter];
+                formedKeyList.AddRange(melodyList);
             } else {
-                // Generate a new compass list
+                // Generate new form
                 List<Compass> compassList = progressionGenerator.calculateCompassDistribution();
-                formDictionary[letter] = compassList;
-                producedFormList.AddRange(compassList);
+                List<MelodyKey> formMelodyKeys = new List<MelodyKey>();
+
+                foreach(Compass compass in compassList) {
+                    List<MelodyKey> compassMelodyKeys = melodyGenerator.generateMelodyFromCompass(compass);
+                    formMelodyKeys.AddRange(compassMelodyKeys);
+                }
+                formCompassDictionary[letter] = compassList;
+                formKeysDictionary[letter] = formMelodyKeys;
             }
         }
-
-        return producedFormList;
     }
 }

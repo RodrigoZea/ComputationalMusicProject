@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     private PianoScript pianoScript; 
     public PianoPlayer pianoPlayer;
     public List<AudioSource> pianoKeysAudioSource;
+    public AudioSource melodyAudioSource;
 
     // --------------------------------
     public int[] metric;

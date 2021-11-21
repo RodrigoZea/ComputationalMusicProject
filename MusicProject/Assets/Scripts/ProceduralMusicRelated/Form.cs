@@ -6,8 +6,8 @@ public class Form : MonoBehaviour
 {
     public string formIdentifier;
     public List<Compass> compasses;
-    public List<Key> keys;
-    public Form(string formIdentifier, List<Compass> compasses, List<Key> keys) {
+    public List<MelodyKey> keys;
+    public Form(string formIdentifier, List<Compass> compasses, List<MelodyKey> keys) {
         this.formIdentifier = formIdentifier;
         this.compasses = compasses;
         this.keys = keys;
