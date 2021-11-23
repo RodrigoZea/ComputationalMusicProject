@@ -28,7 +28,9 @@ public class PlayerScript : MonoBehaviour
     private bool isEnabled;
     private int counter;
     private int currentCompass;
+    private int currentKey;
     private int compassSemiCounter;
+    private int melodySemiCounter;
     private float interval;
     public List<AudioClip> audioClips;
     private float semicorcheasPerMinute;
@@ -63,6 +65,7 @@ public class PlayerScript : MonoBehaviour
 
         StartCoroutine(StartBeat());
         StartCoroutine(StartPiano());
+        StartCoroutine(StartMelody());
     }
 
     public void ResetPlayer() {
@@ -116,27 +119,62 @@ public class PlayerScript : MonoBehaviour
         while (isEnabled) {
             Compass currentCompassObj = pianoPlayer.getCompass(currentCompass);
 
+            //compassSemiCounter++;
 
-            compassSemiCounter++;
+            // Play chord
+             playChord(
+                currentCompassObj.chordToPlay.chordKeys[0], 
+                currentCompassObj.chordToPlay.chordKeys[1], 
+                currentCompassObj.chordToPlay.chordKeys[2]
+            );
+
+            /*
             if (compassSemiCounter % metric[0] == 0) {
-                Debug.Log("Semicounter is: " + compassSemiCounter);
                 // Play chord
                 playChord(
                     currentCompassObj.chordToPlay.chordKeys[0], 
                     currentCompassObj.chordToPlay.chordKeys[1], 
                     currentCompassObj.chordToPlay.chordKeys[2]
                 );
-            }
-            if (compassSemiCounter == currentCompassObj.duration) {
+            }*/
+            currentCompass++;
+
+            /*if (compassSemiCounter == currentCompassObj.duration) {
                 currentCompass++;
                 compassSemiCounter = 0;
-            }
+            }*/
 
             if (pianoPlayer.checkCompassCounter(currentCompass)) {
                 currentCompass = 0;
             }
 
-            yield return new WaitForSecondsRealtime(semicorcheasPerMinute);
+            yield return new WaitForSecondsRealtime(currentCompassObj.duration);
+        }
+    }
+
+    private IEnumerator StartMelody() {
+        currentKey = 0;
+        melodySemiCounter = 0;
+
+        while (isEnabled) {
+            MelodyKey currentMelodyKey = pianoPlayer.GetMelodyKey(currentKey);
+            currentKey++;
+
+            melodyAudioSource.pitch = currentMelodyKey.key.frequency;
+            melodyAudioSource.Play();
+
+            //melodySemiCounter++;
+            //currentKey++;
+            /*if (melodySemiCounter > currentMelodyKey.duration) {
+                currentKey++;
+                melodySemiCounter=0;
+            }*/
+
+            if (pianoPlayer.checkKeyCounter(currentKey)) {
+                currentKey = 0;
+            }
+
+            yield return new WaitForSecondsRealtime(currentMelodyKey.duration);
         }
     }
 

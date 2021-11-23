@@ -6,9 +6,14 @@ public class PianoPlayer : MonoBehaviour
 {
     PianoScript pianoInfo;
     List<Compass> compasses;
+    List<MelodyKey> melodyKeys;
 
     public void setPianoInfo(List<Compass> compassTonal) {
         compasses = compassTonal;
+    }
+
+    public void setMelodyInfo(List<MelodyKey> melodyKeysArranged) {
+        melodyKeys = melodyKeysArranged;
     }
 
     public Compass getCompass(int index) {
@@ -24,4 +29,20 @@ public class PianoPlayer : MonoBehaviour
 
         return passed;
     }
+
+    public MelodyKey GetMelodyKey(int index) {
+        return melodyKeys[index];
+    }
+
+    public bool checkKeyCounter(int index) {
+        bool passed = false;
+
+        if (index >= melodyKeys.Count) {
+            passed = true;
+        }
+
+        return passed;
+    }
+
+
 }

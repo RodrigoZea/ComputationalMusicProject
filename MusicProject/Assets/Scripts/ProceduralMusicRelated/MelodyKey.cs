@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MelodyKey : MonoBehaviour
 {
-    Key key;
-    int duration;
+    public Key key;
+    public int duration;
 
     public MelodyKey(Key key, int duration) {
         this.key = key;

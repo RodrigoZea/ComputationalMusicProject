@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FormGenerator : MonoBehaviour
 {
-    private Dictionary<string, List<Compass>> formCompassDictionary;
-    private Dictionary<string, List<MelodyKey>> formKeysDictionary;
+    private Dictionary<string, List<Compass>> formCompassDictionary = new Dictionary<string, List<Compass>>();
+    private Dictionary<string, List<MelodyKey>> formKeysDictionary = new Dictionary<string, List<MelodyKey>>();
     public GameObject player;
     public ProgressionGenerator progressionGenerator;
     public GameObject pianoPlayer;
@@ -19,7 +19,8 @@ public class FormGenerator : MonoBehaviour
     void Start()
     {
         getForm();
-        //pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(formedCompassList);
+        pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(formedCompassList);
+        pianoPlayer.GetComponent<PianoPlayer>().setMelodyInfo(formedKeyList);
         player.GetComponent<PlayerScript>().enabled = true;
         player.GetComponent<PlayerScript>().setIsEnabled(true);
         player.GetComponent<PlayerScript>().StartPlayer();
