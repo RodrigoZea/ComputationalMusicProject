@@ -384,7 +384,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c786de4f94d79d249b51dee488d3da45, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1186,7 +1186,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c786de4f94d79d249b51dee488d3da45, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2738,7 +2738,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c786de4f94d79d249b51dee488d3da45, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2882,7 +2882,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.707
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3105,6 +3105,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e9361a615f27c6743879b0f7267a995b, type: 3}
   - {fileID: 8300000, guid: c4703d1f666dbe044b2f44b0aee071cb, type: 3}
   progressionGenerator: {fileID: 295333948}
+  formGenerator: {fileID: 813684746}
 --- !u!82 &1807641845
 AudioSource:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class FormGenerator : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
         getForm();
         pianoPlayer.GetComponent<PianoPlayer>().setPianoInfo(formedCompassList);
@@ -64,6 +64,8 @@ public class FormGenerator : MonoBehaviour
                 formCompassDictionary[letter] = compassList;
                 formKeysDictionary[letter] = formMelodyKeys;
             }
+
+            Debug.Log("FORM: " + letter);
         }
     }
 }

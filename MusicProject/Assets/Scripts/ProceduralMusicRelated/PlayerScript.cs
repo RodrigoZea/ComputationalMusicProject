@@ -38,6 +38,7 @@ public class PlayerScript : MonoBehaviour
     private int[] metricToPlay;
     private int drumArrayLength;
     public GameObject progressionGenerator;
+    public GameObject formGenerator;
 
     // --------------------------------
 
@@ -71,10 +72,12 @@ public class PlayerScript : MonoBehaviour
     public void ResetPlayer() {
         counter = 0;
         currentCompass = 0;
+        currentKey = 0;
         compassSemiCounter = 0;
 
         isEnabled = false;
         progressionGenerator.GetComponent<ProgressionGenerator>().enabled = false;
+        formGenerator.GetComponent<FormGenerator>().enabled = false;
         drumsScript.enabled = false;
         pianoPlayer.enabled = false;
     }
